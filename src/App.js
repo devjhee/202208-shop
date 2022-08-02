@@ -1,68 +1,45 @@
 import './App.css';
+import data from './data/shoes';
 import { useState } from 'react';
-import { Container, Nav, Navbar, Row, Col } from 'react-bootstrap';
-import data from './data';
+import { Container, Nav, Navbar } from 'react-bootstrap';
+import { Routes, Route, Link } from 'react-router-dom';
+import Main from './routes/main';
+import Detail from './routes/detail';
 
 function App() {
   let [shoes] = useState(data);
 
   return (
     <div className="App">
+      {/* GNB */}
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">ENFP쇼핑몰</Navbar.Brand>
+          <Navbar.Brand href="/">ENFP쇼핑몰</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/detail">Details</Nav.Link>
+            <Nav.Link href="/not_ready">Not Ready</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
-      <div className="main-bg"></div>
-      <Container className="sell-list">
-        <Row>
-          {shoes.map((item, index) => {
-            return (
-              <>
-                <SellItem
-                  index={index}
-                  title={item.title}
-                  content={item.content}
-                  price={item.price}
-                />
-              </>
-            );
-          })}
-        </Row>
+
+      {/* Content */}
+      <Routes>
+        <Route path="/" element={<div className="main-bg"></div>}></Route>
+      </Routes>
+      <Container>
+        <Routes>
+          <Route exact path="/" element={<Main data={shoes} />}></Route>
+          <Route
+            path="/detail/:paraid"
+            element={<Detail data={shoes} />}
+          ></Route>
+          <Route path="/not_ready" element={<div>준비 중입니다.</div>}></Route>
+          <Route path="*" element={<div>없는 페이지입니다.</div>}></Route>
+        </Routes>
       </Container>
     </div>
   );
 }
 
 export default App;
-
-// interface SellItemProps { > TypeScript에서 사용하는 문법임
-//   index: number
-// title: String
-// content: string
-// price: string
-// }
-
-function SellItem(props) {
-  return (
-    <>
-      <Col key={props.index} sm>
-        <img
-          src={`https://codingapple1.github.io/shop/shoes${
-            props.index + 1
-          }.jpg`}
-          alt="상품사진"
-          width="100%"
-        />
-        <h4>{props.title}</h4>
-        <p>{props.content}</p>
-        <p>{props.price}</p>
-      </Col>
-    </>
-  );
-}
