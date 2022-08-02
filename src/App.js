@@ -47,6 +47,7 @@ export default App;
 // content: string
 // price: string
 // }
+//
 function SellItem(props) {
   return (
     <>
