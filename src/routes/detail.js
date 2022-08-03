@@ -20,7 +20,7 @@ function Detail(props) {
     console.log('bye');
     setTimeout(() => {
       setDisplay(!display);
-    }, 2000);
+    }, 5000);
 
     return () => {
       console.log(
